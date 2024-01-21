@@ -15,31 +15,28 @@ import EditEvent, {
 } from "./components/Events/EditEvent.jsx";
 
 const router = createBrowserRouter([
-  // {
-  //   path: "/",
-  //   element: <Navigate to="/events" />,
-  // },
   {
-    path: "/react-tanstack",
-    element: <Navigate to="/react-tanstack/events" />,
+    path: "/",
+    element: <Navigate to="/events" />,
   },
+  
   {
-    path: "/react-tanstack/events",
+    path: "/events",
     element: <Events />,
 
     children: [
       {
-        path: "/react-tanstack/events/new",
+        path: "/events/new",
         element: <NewEvent />,
       },
     ],
   },
   {
-    path: "/react-tanstack/events/:id",
+    path: "/events/:id",
     element: <EventDetails />,
     children: [
       {
-        path: "/react-tanstack/events/:id/edit",
+        path: "/events/:id/edit",
         element: <EditEvent />,
         loader: editEventLoader,
       },
