@@ -6,7 +6,7 @@ import express from "express";
 const app = express();
 
 app.use(bodyParser.json());
-app.use(express.static("backend/public"));
+app.use(express.static("public"));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -27,9 +27,9 @@ app.get("/", (req, res) => {
 
 app.get("/events", async (req, res) => {
   const { max, search } = req.query;
-  const eventsFileContent = await fs.readFile("./backend/data/events.json");
+  const eventsFileContent = await fs.readFile("./data/events.json");
   let events = JSON.parse(eventsFileContent);
-
+  console.log(events);
   if (search) {
     events = events.filter((event) => {
       const searchableText = `${event.title} ${event.description} ${event.location}`;
@@ -53,7 +53,7 @@ app.get("/events", async (req, res) => {
 });
 
 app.get("/events/images", async (req, res) => {
-  const imagesFileContent = await fs.readFile("./backend/data/images.json");
+  const imagesFileContent = await fs.readFile("./data/images.json");
   const images = JSON.parse(imagesFileContent);
 
   res.json({ images });
@@ -62,7 +62,7 @@ app.get("/events/images", async (req, res) => {
 app.get("/events/:id", async (req, res) => {
   const { id } = req.params;
 
-  const eventsFileContent = await fs.readFile("./backend/data/events.json");
+  const eventsFileContent = await fs.readFile("./data/events.json");
   const events = JSON.parse(eventsFileContent);
 
   const event = events.find((event) => event.id === id);
@@ -98,7 +98,7 @@ app.post("/events", async (req, res) => {
     return res.status(400).json({ message: "Invalid data provided." });
   }
 
-  const eventsFileContent = await fs.readFile("./backend/data/events.json");
+  const eventsFileContent = await fs.readFile("./data/events.json");
   const events = JSON.parse(eventsFileContent);
 
   const newEvent = {
@@ -108,7 +108,7 @@ app.post("/events", async (req, res) => {
 
   events.push(newEvent);
 
-  await fs.writeFile("./backend/data/events.json", JSON.stringify(events));
+  await fs.writeFile("./data/events.json", JSON.stringify(events));
 
   res.json({ event: newEvent });
 });
@@ -132,7 +132,7 @@ app.put("/events/:id", async (req, res) => {
     return res.status(400).json({ message: "Invalid data provided." });
   }
 
-  const eventsFileContent = await fs.readFile("./backend/data/events.json");
+  const eventsFileContent = await fs.readFile("./data/events.json");
   const events = JSON.parse(eventsFileContent);
 
   const eventIndex = events.findIndex((event) => event.id === id);
@@ -146,7 +146,7 @@ app.put("/events/:id", async (req, res) => {
     ...event,
   };
 
-  await fs.writeFile("./backend/data/events.json", JSON.stringify(events));
+  await fs.writeFile("./data/events.json", JSON.stringify(events));
 
   setTimeout(() => {
     res.json({ event: events[eventIndex] });
@@ -156,7 +156,7 @@ app.put("/events/:id", async (req, res) => {
 app.delete("/events/:id", async (req, res) => {
   const { id } = req.params;
 
-  const eventsFileContent = await fs.readFile("./backend/data/events.json");
+  const eventsFileContent = await fs.readFile("./data/events.json");
   const events = JSON.parse(eventsFileContent);
 
   const eventIndex = events.findIndex((event) => event.id === id);
@@ -167,7 +167,7 @@ app.delete("/events/:id", async (req, res) => {
 
   events.splice(eventIndex, 1);
 
-  await fs.writeFile("./backend/data/events.json", JSON.stringify(events));
+  await fs.writeFile("./data/events.json", JSON.stringify(events));
 
   setTimeout(() => {
     res.json({ message: "Event deleted" });

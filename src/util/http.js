@@ -3,7 +3,7 @@ import { QueryClient } from "@tanstack/react-query";
 export const queryClient = new QueryClient();
 
 export async function fetchEvents({ signal, searchTerm, max }) {
-  let url = "https://n7z5l5-3000.csb.app/events";
+  let url = "https://tanstack-api.onrender.com/events";
   if (searchTerm && max) {
     url += `?search=${searchTerm} &max=${max}`;
   } else if (searchTerm) {
@@ -27,7 +27,7 @@ export async function fetchEvents({ signal, searchTerm, max }) {
 }
 
 export async function createNewEvent(eventData) {
-  const response = await fetch(`https://n7z5l5-3000.csb.app/events`, {
+  const response = await fetch(`https://tanstack-api.onrender.com/events`, {
     method: "POST",
     body: JSON.stringify(eventData),
     headers: {
@@ -48,7 +48,7 @@ export async function createNewEvent(eventData) {
 }
 
 export async function fetchSelectableImages({ signal }) {
-  const response = await fetch(`https://n7z5l5-3000.csb.app/events/images`, {
+  const response = await fetch(`https://tanstack-api.onrender.com/events/images`, {
     signal,
   });
 
@@ -65,7 +65,7 @@ export async function fetchSelectableImages({ signal }) {
 }
 
 export async function fetchEvent({ id, signal }) {
-  const response = await fetch(`https://n7z5l5-3000.csb.app/events/${id}`, {
+  const response = await fetch(`https://tanstack-api.onrender.com/events/${id}`, {
     signal,
   });
 
@@ -83,7 +83,7 @@ export async function fetchEvent({ id, signal }) {
 
 export async function deleteEvent({ id }) {
   console.log("deleting event", id);
-  const response = await fetch(`https://n7z5l5-3000.csb.app/events/${id}`, {
+  const response = await fetch(`https://tanstack-api.onrender.com/events/${id}`, {
     method: "DELETE",
   });
 
@@ -98,7 +98,7 @@ export async function deleteEvent({ id }) {
 }
 
 export async function updateEvent({ id, event }) {
-  const response = await fetch(`https://n7z5l5-3000.csb.app/events/${id}`, {
+  const response = await fetch(`https://tanstack-api.onrender.com/events/${id}`, {
     method: "PUT",
     body: JSON.stringify({ event }),
     headers: {
